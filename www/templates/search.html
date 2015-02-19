@@ -1,0 +1,86 @@
+<ion-view view-title="Search">
+  <ion-content>
+    <form ng-submit="doSearch(search)">
+      <ion-list>
+        <ion-item class="item-input item-stacked-label">
+          <label class="input-label">
+            <span class="input-label">Street Address</span>
+            <input type="text" placeholder="Street Address" ng-model="search.street_address">
+          </label>
+        </ion-item>
+        <ion-item class="item-input item-stacked-label">
+          <label class="input-label">
+            <span class="input-label">City</span>
+            <input type="text" placeholder="City" ng-model="search.city">
+          </label>
+        </ion-item>
+        <ion-item class="item-input item-stacked-label">
+          <label class="input-label">
+            <span class="input-label">Postal Code</span>
+            <input type="text" placeholder="Postal Code" ng-model="search.postal_code">
+          </label>
+        </ion-item>
+        <ion-item class="item-input item-stacked-label">
+          <label class="input-label">
+            <span class="input-label">State</span>
+            <input type="text" placeholder="State" ng-model="search.state">
+          </label>
+        </ion-item>
+        <ion-item class="item-input item-stacked-label">
+          <label class="input-label">
+            <span class="input-label">Country</span>
+            <input type="text" placeholder="Country" ng-model="search.country">
+          </label>
+        </ion-item>
+        <ion-item class="item-input item-select">
+          <label class="input-label">
+            <span class="input-label">Fuel Type</span>
+            <select ng-model="search.fuel_type">
+              <option value="euro_95">Euro 95</option>
+              <option value="diesel">Diesel</option>
+              <option value="lpg">LPG</option>
+              <option value="cng">CNG</option>
+              <option value="superplus_98">Super 98</option>
+            </select>
+          </label>
+        </ion-item>
+
+        <ion-item class="item-input item-select">
+          <label class="input-label">
+            <span class="input-label">Sort by</span>
+            <select ng-model="search.sort">
+              <option value="distance">Distance</option>
+              <option value="price">Price</option>
+            </select>
+          </label>
+        </ion-item>
+
+        <ion-item class="item-input item-select">
+          <label class="input-label">
+            <span class="input-label">Sort order</span>
+            <select ng-model="search.order">
+              <option value="desc">Descending</option>
+              <option value="asc">Ascending</option>
+            </select>
+          </label>
+        </ion-item>
+
+        <ion-item class="item-input range range-positive">
+          5 km
+          <input type="range" name="volume" min="5" max="25" value="10" ng-model="search.radius">
+          {{ search.radius }} km
+        </ion-item>
+
+
+        <ion-toggle ng-model="search.with_price" toggle-class="toggle-calm">Show with known prices only</ion-toggle>
+
+
+        <div class="padding">
+          <button type="submit" class="button button-block button-positive">Find
+            Stations
+          </button>
+        </div>
+      </ion-list>
+    </form>
+  </ion-content>
+</ion-view>
