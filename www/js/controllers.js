@@ -1,21 +1,55 @@
 angular.module('starter.controllers', [])
 
-  .controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
+  .controller('AppCtrl', function ($scope, $state) {
 
+    $scope.goToState = function (state_name) {
+      $state.go(state_name);
+    }
   })
 
-  .controller('GasStationsCtrl', function ($scope, $stateParams, GasStations, $timeout) {
-    $scope.gas_stations = GasStations.query({
-      address: $stateParams.address,
-      sort: $stateParams.sort,
-      order: $stateParams.order,
-      fuel_type: $stateParams.fuel_type,
-      with_price: $stateParams.with_price,
-      radius: $stateParams.radius,
-      page: 1
-    });
+  .controller('GasStationsCtrl', function ($scope, $stateParams, GasStations, SearchService, $rootScope) {
 
-    $scope.page = 1;
+    $scope.page_size = 25;
+    if ($rootScope.newSearch == true) {
+      $scope.current_page = 1;
+      $scope.moreDataCanBeLoaded = true;
+      $scope.gas_stations = [];
+
+      $rootScope.current_page = $scope.current_page;
+      $rootScope.moreDataCanBeLoaded = $scope.moreDataCanBeLoaded;
+    }
+    else {
+      $rootScope.newSearch = false;
+      $scope.current_page = $rootScope.current_page;
+      $scope.moreDataCanBeLoaded = $rootScope.moreDataCanBeLoaded;
+
+      $scope.gas_stations = SearchService.getData();
+    }
+
+    $scope.loadMoreData = function () {
+      GasStations.query({
+        address: $stateParams.address,
+        sort: $stateParams.sort,
+        order: $stateParams.order,
+        fuel_type: $stateParams.fuel_type,
+        with_price: $stateParams.with_price,
+        radius: $stateParams.radius,
+        page: $scope.current_page
+      }, function (response) {
+
+        $scope.gas_stations = $scope.gas_stations.concat(response);
+        SearchService.setData($scope.gas_stations);
+
+        if (response.length < $scope.page_size) {
+          $scope.moreDataCanBeLoaded = false;
+        }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        $scope.current_page = $scope.current_page + 1;
+
+        $rootScope.current_page = $scope.current_page;
+        $rootScope.moreDataCanBeLoaded = $scope.moreDataCanBeLoaded;
+      });
+    };
 
   })
 
@@ -23,7 +57,7 @@ angular.module('starter.controllers', [])
     $scope.gas_station = GasStations.get({ id: $stateParams.gas_station_id });
   })
 
-  .controller('StationSearchCtrl', function ($scope, $state) {
+  .controller('StationSearchCtrl', function ($scope, $stateParams, $state, $rootScope) {
     $scope.search = {
       city: 'Uithuizen',
       state: 'Groningen',
@@ -41,7 +75,17 @@ angular.module('starter.controllers', [])
         .filter(function (n) {
           return n != undefined
         }).join(', ');
-      console.log(formatted_address);
+
+      console.log('current search: ' + JSON.stringify(search));
+      console.log('rootscope search: ' + JSON.stringify($rootScope.search));
+      console.log(JSON.stringify(search) == $rootScope.search);
+      if (JSON.stringify(search) == $rootScope.search) {
+        $rootScope.newSearch = false;
+      }
+      else {
+        $rootScope.newSearch = true;
+        $rootScope.search = JSON.stringify(search);
+      }
       $state.go('app.gas_stations', { address: formatted_address, fuel_type: search.fuel_type, sort: search.sort,
         order: search.order, with_price: search.with_price, radius: search.radius });
     };

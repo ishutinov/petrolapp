@@ -32,7 +32,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     .state('app.gas_stations', {
       url: '/gas_stations',
-      params: { address: null, fuel_type: 'euro_95', sort: 'distance', order: 'asc', with_price: false, radius: 10 },
+      params: { address: null, fuel_type: 'euro_95', sort: 'distance', order: 'asc', with_price: false, radius: 10, doNewSearch: true },
       views: {
         'menuContent': {
           templateUrl: 'templates/gas_stations.html',
