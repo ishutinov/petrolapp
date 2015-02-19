@@ -30,25 +30,38 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     controller: 'AppCtrl'
   })
 
-    .state('app.gas_stations', {
-      url: '/gas_stations',
-      params: { address: null, fuel_type: 'euro_95', sort: 'distance', order: 'asc', with_price: false, radius: 10, doNewSearch: true },
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/gas_stations.html',
-          controller: 'GasStationsCtrl'
-        }
+  .state('app.gas_stations', {
+    url: '/gas_stations',
+    cache: false,
+    params: { address: null, fuel_type: 'euro_95', sort: 'distance', order: 'asc', with_price: false, radius: 10, doNewSearch: true },
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/gas_stations.html',
+        controller: 'GasStationsCtrl'
       }
-    })
-    .state('app.search.gas_stations.detail', {
-      url: '/gas_stations/:gas_station_id',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/gas_station-detail.html',
-          controller: 'GasStationDetailCtrl'
-        }
+    }
+  })
+  .state('app.gas_stations-detail', {
+    url: '/gas_stations/:gas_station_id',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/gas_station-detail.html',
+        controller: 'GasStationDetailCtrl'
       }
-    })
+    }
+  })
+
+  .state('app.add_price', {
+    url: "/gas_stations/:gas_station_id/add_price",
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: "templates/add_price.html",
+        controller: 'AddPriceCtrl'
+      }
+    }
+  })
 
   .state('app.search', {
     url: "/search",

@@ -1,0 +1,46 @@
+<ion-view view-title="Add new price">
+  <ion-content>
+    <form ng-submit="addFuelPrice()">
+
+      <div class="list card" ng-show="message.error">
+        <div class="item item-assertive">
+          {{ message.error }}
+          <i class="icon ion-close" style="float: right;" ng-click="message.error = false"></i>
+        </div>
+      </div>
+
+      <ion-list>
+
+        <ion-item class="item item-divider">Station Info</ion-item>
+        <ion-item class="item">{{ gas_station.name }}</ion-item>
+        <ion-item class="item">{{ gas_station.address }}</ion-item>
+
+        <ion-item class="item item-divider">New Fuel Price</ion-item>
+        <ion-item class="item-input item-stacked-label">
+          <label class="input-label">
+            <span class="input-label">Price (EUR)</span>
+            <input type="text" placeholder="Price (EUR)" ng-model="fuel_price.fuel_price.price">
+          </label>
+        </ion-item>
+
+
+        <ion-item class="item-input item-select">
+          <label class="input-label">
+            <span class="input-label">Fuel Type</span>
+            <select ng-model="data.fuel_type">
+              <option value="euro_95">Euro 95</option>
+              <option value="diesel">Diesel</option>
+              <option value="lpg">LPG</option>
+              <option value="cng">CNG</option>
+              <option value="superplus_98">Super 98</option>
+            </select>
+          </label>
+        </ion-item>
+
+        <div class="padding">
+          <button type="submit" class="button button-block button-positive">Submit price</button>
+        </div>
+      </ion-list>
+    </form>
+  </ion-content>
+</ion-view>

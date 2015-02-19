@@ -57,6 +57,24 @@ angular.module('starter.controllers', [])
     $scope.gas_station = GasStations.get({ id: $stateParams.gas_station_id });
   })
 
+  .controller('AddPriceCtrl', function ($scope, $stateParams, GasStations, FuelPrices, $ionicHistory, $state) {
+    $scope.gas_station = GasStations.get({ id: $stateParams.gas_station_id });
+    $scope.fuel_price = new FuelPrices();
+    $scope.data = {fuel_type: 'euro_95'};
+
+    $scope.state = $state;
+
+    $scope.addFuelPrice = function() { //create a new movie. Issues a POST to /api/movies
+      $scope.fuel_price.$save({gas_station_id: $scope.gas_station.id, fuel_type: $scope.data.fuel_type},function() {
+        $scope.message = { success: 'Successfully submit new fuel price' };
+        $ionicHistory.currentView($ionicHistory.backView());
+        $state.go('app.gas_stations-detail', { gas_station_id: $stateParams.gas_station_id }, {reload: false});
+      }, function() {
+        $scope.message = { error: 'Error when adding price.' };
+      });
+    };
+  })
+
   .controller('StationSearchCtrl', function ($scope, $stateParams, $state, $rootScope) {
     $scope.search = {
       city: 'Uithuizen',

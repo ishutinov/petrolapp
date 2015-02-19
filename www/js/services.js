@@ -6,6 +6,11 @@ angular.module('starter.services', [])
     return $resource(api_url + '/gas_stations/:id', {id: '@id'});
 })
 
+.factory('FuelPrices', function($resource) {
+    return $resource(api_url + '/gas_stations/:gas_station_id/fuel_types/:fuel_type/fuel_prices/:id', {
+      id: '@id', gas_station_id: '@gas_station_id', fuel_type: '@fuel_type'});
+})
+
 .factory('SearchService', function () {
   var data = {};
 

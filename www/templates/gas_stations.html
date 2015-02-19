@@ -6,21 +6,21 @@
     <div class="list card" ng-repeat="gas_station in gas_stations">
 
       <div class="item item-divider">
-        <h2>{{gas_station.name}}</h2>
+        <a href="#/app/gas_stations/{{gas_station.id}}"><h2>{{gas_station.name}}</h2></a>
       </div>
 
       <div class="item item-body">
         <p>
-          {{gas_station.formatted_address}}
+          {{gas_station.address}}
         </p>
       </div>
 
       <div class="item tabs tabs-icon-left ">
         <span class="tab-item">
           <i class="icon ion-ios7-pricetag" ng-class="{'balanced': gas_station.current_price[0].days_ago < 2,
-                                         'energized': gas_station.current_price[0].days_ago == 2 || gas_station.current_price[0].days_ago < 7,
+                                         'energized': gas_station.current_price[0].days_ago > 1 && gas_station.current_price[0].days_ago < 7,
                                          'assertive' : gas_station.current_price[0].days_ago > 7}"></i>&nbsp;
-          {{ gas_station.current_price[0] == null ? 'unknown' : (gas_station.current_price[0].price | currency: gas_station.current_price[0].currency + ' ' : 2) }}
+          {{ gas_station.current_price[0] == null ? 'unknown' : (gas_station.current_price[0].price | currency: gas_station.current_price[0].currency + ' ' : 3) }}
         </span>
         <span class="tab-item" ng-if="gas_station.distance != null">
           <i class="icon ion-navigate"></i>&nbsp;
@@ -28,7 +28,7 @@
         </span>
         <span class="tab-item">
           <i class="icon ion-clock"></i>&nbsp;
-          {{ gas_station.current_price[0] == null? '-' : (gas_station.current_price[0].date | date: 'yyyy-MM-dd') + ' ('+ (gas_station.current_price[0].time_ago_in_words + ' ago)') }}
+          {{ gas_station.current_price[0] == null? '-' : (gas_station.current_price[0].time_ago_in_words + ' ago') }}
         </span>
       </div>
 

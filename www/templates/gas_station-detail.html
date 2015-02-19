@@ -1,8 +1,54 @@
-<ion-view view-title="{{gas_station.name}}">
+<ion-view view-title="{{gas_station.name + ', ' + gas_station.city + ', ' + gas_station.state}}">
+
   <ion-content class="padding">
-    <h1>{{gas_station.name}}</h1>
-    <p>
-      {{gas_station.formatted_address}}
-    </p>
+
+    <div class="list card" ng-show="message.success">
+      <div class="item item-balanced">
+        {{ message.success }}
+        <i class="icon ion-close" style="float: right;" ng-click="message.success = false"></i>
+      </div>
+    </div>
+
+    <ion-list ng-controller="GasStationDetailCtrl">
+
+      <ion-item class="item item-divider">Address</ion-item>
+
+      <ion-item class="item">{{ gas_station.street_address }}</ion-item>
+
+      <ion-item class="item">{{ gas_station.postal_code }}</ion-item>
+
+      <ion-item class="item">{{ gas_station.city }}</ion-item>
+
+      <ion-item class="item">{{ gas_station.state }}</ion-item>
+
+      <ion-item class="item">{{ gas_station.country }}</ion-item>
+
+      <ion-item class="item item-divider">Latest known prices</ion-item>
+
+      <ion-item class="item" ng-repeat="current_price in gas_station.current_price">
+        <h2>{{ current_price.fuel_type_full_name }}</h2>
+
+        <p>
+          <i class="icon ion-ios7-pricetag" ng-class="{'balanced': current_price.days_ago < 2,
+                                         'energized': current_price.days_ago == 2 || current_price.days_ago < 7,
+                                         'assertive' : current_price.days_ago > 7}"></i>&nbsp;
+          {{ current_price == null ? 'unknown' : (current_price.price | currency: current_price.currency + ' ' : 3) }}
+          <span class="item-note">
+            {{ (current_price.date | date: 'yyyy-MM-dd') + ' ('+ (current_price.time_ago_in_words + ' ago)') }}
+          </span>
+        </p>
+
+
+      </ion-item>
+
+      <div class="padding">
+        <a class="button button-block button-balanced" href="#/app/gas_stations/{{gas_station.id}}/add_price">
+          Add new fuel price
+        </a>
+      </div>
+
+    </ion-list>
+
+
   </ion-content>
 </ion-view>
